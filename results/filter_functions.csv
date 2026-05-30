@@ -1,0 +1,7 @@
+filter_id,filter_name,filter_dim
+1,MDS1,1
+2,distance_to_medoid,1
+3,mean_distance,1
+4,introgressed_fraction,1
+5,tract_count,1
+6,mean_tract_length,1

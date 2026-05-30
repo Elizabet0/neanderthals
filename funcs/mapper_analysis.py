@@ -1,3 +1,6 @@
+import networkx as nx
+from kmapper.adapter import to_networkx
+
 def mapper_summary(graph):
     g=to_networkx(graph)
     n=g.number_of_nodes()

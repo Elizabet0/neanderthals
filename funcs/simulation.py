@@ -1,3 +1,8 @@
+import msprime
+import sys
+sys.path.append('..')
+from parameters import params, Ne, t, t_second_wave
+
 def simulate_one_pulse(seed,admixture_prop=0.1):
     demography=msprime.Demography()
     for name,size in [("AF",Ne['af']),("EU",Ne['eu']),("AMH",Ne['amh']),

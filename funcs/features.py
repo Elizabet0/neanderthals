@@ -1,4 +1,6 @@
-def build_binary_matrix(tracts,n):
+import numpy as np
+
+def build_binary_matrix(tracts,n, w_size, M):
     X = np.zeros((n,M),dtype=int)
     for ind,segs in tracts.items():
         for s,e in segs:

@@ -1,3 +1,7 @@
+import numpy as np
+from sklearn.manifold import MDS
+import pandas as pd
+
 def compute_filter(filter_name, X, dist, bio_df):
     if filter_name=="MDS1":
         mds=MDS(n_components=1,dissimilarity='precomputed',
@@ -17,4 +21,3 @@ def compute_filter(filter_name, X, dist, bio_df):
         return bio_df[['tract_count']].values
     elif filter_name=="mean_tract_length":
         return bio_df[['mean_tract_length']].values
-    

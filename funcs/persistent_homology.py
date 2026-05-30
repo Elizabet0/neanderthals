@@ -1,3 +1,6 @@
+import numpy as np
+from ripser import Rips
+
 def persistence_summary(dm):
     r=Rips(maxdim=1)
     d=r.fit_transform(dm, distance_matrix=True)

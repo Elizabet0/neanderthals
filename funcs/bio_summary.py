@@ -1,33 +1,8 @@
-def get_population_tracts_dataframe(ts, target_pop, source_pop, migration_time):
-    t_id=-1
-    for p in ts.populations():
-        if p.metadata.get('name')==target_pop:
-            t_id=p.id
-            break
-    nodes=ts.samples(population=t_id)
-    if len(nodes)==0:
-        return pd.DataFrame(columns=["Sample","Start","End","Length"])
-    ind_ids=np.unique(ts.nodes_individual[nodes])
-    ind_ids=ind_ids[ind_ids!=-1]
-    data=[]
-    for ind in ind_ids:
-        individual=ts.individual(ind)
-        for i,node in enumerate(individual.nodes):
-            sample_name=f"{target_pop}_{ind}_{i+1}"
-            tracts=get_migrating_tracts_ind(
-                ts,
-                source_pop,
-                node,
-                migration_time
-            )
-            for s,e in tracts:
-                data.append({
-                    "Sample":sample_name,
-                    "Start":int(s),
-                    "End":int(e),
-                    "Length":int(e-s)
-                })
-    return pd.DataFrame(data)
+import numpy as np
+import pandas as pd
+import sys
+sys.path.append('..')
+from parameters import params 
 
 
 def build_individual_biology(tracts, X, scenario):

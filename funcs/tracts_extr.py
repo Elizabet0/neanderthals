@@ -1,3 +1,8 @@
+import numpy as np
+import pandas as pd
+import tskit
+from collections import defaultdict
+
 def get_migrating_tracts_ind(ts,pop_name,ind_node,T_anc):
     pop_id=-1
     for p in ts.populations():
@@ -35,18 +40,48 @@ def get_migrating_tracts_ind(ts,pop_name,ind_node,T_anc):
                         tracts.append([s,e])
     return tracts
 
+def get_population_tracts_dataframe(ts, target_pop, source_pop, migration_time):
+    t_id=-1
+    for p in ts.populations():
+        if p.metadata.get('name')==target_pop:
+            t_id=p.id
+            break
+    nodes=ts.samples(population=t_id)
+    if len(nodes)==0:
+        return pd.DataFrame(columns=["Sample","Start","End","Length"])
+    ind_ids=np.unique(ts.nodes_individual[nodes])
+    ind_ids=ind_ids[ind_ids!=-1]
+    data=[]
+    for ind in ind_ids:
+        individual=ts.individual(ind)
+        for i,node in enumerate(individual.nodes):
+            sample_name=f"{target_pop}_{ind}_{i+1}"
+            tracts=get_migrating_tracts_ind(
+                ts,
+                source_pop,
+                node,
+                migration_time
+            )
+            for s,e in tracts:
+                data.append({
+                    "Sample":sample_name,
+                    "Start":int(s),
+                    "End":int(e),
+                    "Length":int(e-s)
+                })
+    return pd.DataFrame(data)
+
 def merge(intervals):
     if not intervals:
         return []
-    intervals=sorted(intervals)
-    res=[list(intervals[0])]
-    for s,e in intervals[1:]:
-        if s<=res[-1][1]:
-            res[-1][1]=max(res[-1][1],e)
+    intervals.sort()
+    res = [intervals[0]]
+    for s, e in intervals[1:]:
+        if s <= res[-1][1]:
+            res[-1] = (res[-1][0], max(res[-1][1], e))
         else:
-            res.append([s,e])
-    return [(s,e) for s,e in res]
-
+            res.append((s, e))
+    return res
 
 def get_tracts_dict(ts, n_eu, migration_times):
     tracts=defaultdict(list)
