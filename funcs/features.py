@@ -1,4 +1,4 @@
-import numpy as np
+import numpy as np 
 
 def build_binary_matrix(tracts,n, w_size, M):
     X = np.zeros((n,M),dtype=int)
