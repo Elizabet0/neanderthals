@@ -1,6 +1,8 @@
 import numpy as np 
+w_size=1000
+M=30000000//w_size
 
-def build_binary_matrix(tracts,n, w_size, M):
+def build_binary_matrix(tracts,n):
     X = np.zeros((n,M),dtype=int)
     for ind,segs in tracts.items():
         for s,e in segs:

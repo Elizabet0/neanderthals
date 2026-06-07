@@ -1,0 +1,4 @@
+scenario,mean_introgressed_fraction,mean_introgressed_windows,mean_tract_count,mean_tract_length
+one_pulse,0.17522766666666667,5256.83,65.18,80041.91823372328
+one_pulse_desert,0.147781,4433.43,54.36,81083.0918459644
+two_pulses,0.07887833333333333,2366.35,31.43,74592.74768846693
